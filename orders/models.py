@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Pedido(models.Model):
+class Order(models.Model):
     
     # Número do Pedido
     order_number = models.IntegerField()
@@ -16,6 +16,7 @@ class Pedido(models.Model):
     book_title = models.CharField(max_length=150)
     book_price = models.FloatField()
     book_quantity = models.IntegerField()
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Endereço
     state = models.CharField(max_length=200)
@@ -35,6 +36,11 @@ class Pedido(models.Model):
     
     # Data de criação do pedido
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    
+    # def saveTotalPrice(self, *args, **kwargs):
+    #     self.total_price = self.book_price * self.book_quantity
+    #     super().save(*args, **kwargs)
 
     
     def __str__(self):

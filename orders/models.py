@@ -4,7 +4,7 @@ from django.db import models
 class Order(models.Model):
     
     # Número do Pedido
-    order_number = models.IntegerField()
+    order_number = models.IntegerField(blank=True, null=True)
     
     # Usuario
     user_id = models.IntegerField() # Talvez colocar / Falta enviar por formulário no projeto
@@ -13,10 +13,13 @@ class Order(models.Model):
     last_name = models.CharField(max_length=150) # Falta enviar por formulário no projeto
 
     # Livro
-    book_title = models.CharField(max_length=150)
-    book_price = models.FloatField()
-    book_quantity = models.IntegerField()
+    # book_title = models.CharField(max_length=150)
+    # book_price = models.FloatField()
+    # book_quantity = models.IntegerField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    # Carrinho
+    cart = models.JSONField()
 
     # Endereço
     state = models.CharField(max_length=200)
@@ -37,11 +40,16 @@ class Order(models.Model):
     # Data de criação do pedido
     created_at = models.DateTimeField(auto_now_add=True)
     
-    
-    # def saveTotalPrice(self, *args, **kwargs):
-    #     self.total_price = self.book_price * self.book_quantity
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        # ID vai ser igual ao numero do pedido
+        if not self.order_number:
+            self.order_number = self.id
 
+        # Soma os itens do carrinho para dar o valor total 
+        if self.cart:
+            self.total_price = sum(item['totalValue'] for item in self.cart)
+            
+        super().save(*args,**kwargs)
     
     def __str__(self):
         return f"Pedido {self.order_number} para {self.user_name} criado no dia: {self.created_at}"

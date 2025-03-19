@@ -26,8 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'orders',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -38,7 +40,41 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+
+
+
+CORS_ORIGIN_ALLOW_ALL = True     # Permite requisições vindas de qualquer endereço de origem
+
+# CORS_ALLOWED_ORIGINS = [       # Permite requisições vindas APENAS da origem porta 8000 (O Projeto django app livraria no caso)
+#     "http://localhost:8000"
+# ]
+
+
+# Tipos de requisições permitidas na api
+CORS_ALLOWED_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',            # Necessário para enviar dados no corpo da requisição como JSON
+    'X-CSRFToken',             # Necessário para passar o CSRF Token (se usado)
+    'Authorization',           # Se você estiver usando autenticação com tokens JWT ou outros
+    'Accept',                  # Permite especificar o tipo de resposta que o cliente aceita (como JSON)
+    'X-Requested-With',        # Útil para indicar que a requisição é originada de JavaScript
+]
+
+CORS_ALLOW_CREDENTIALS = True  # Permite o envio de cookies, cabeçalhos de autenticação, e outros dados confidenciais em requisições cross-origin.
+
+
 
 ROOT_URLCONF = 'app.urls'
 

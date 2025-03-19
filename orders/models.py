@@ -16,7 +16,7 @@ class Order(models.Model):
     # book_title = models.CharField(max_length=150)
     # book_price = models.FloatField()
     # book_quantity = models.IntegerField()
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
     
     # Carrinho
     cart = models.JSONField()
@@ -31,19 +31,20 @@ class Order(models.Model):
     
     # Dados Pagamento
     payment_method = models.CharField(max_length=200)
-    card_name = models.CharField(max_length=200)
-    card_number = models.IntegerField()
-    card_security_code = models.IntegerField()
-    card_validity_month = models.IntegerField()
-    card_validity_year = models.IntegerField()
+    card_name = models.CharField(max_length=200,blank=True, null=True)
+    card_number = models.IntegerField(blank=True, null=True)
+    card_security_code = models.IntegerField(blank=True, null=True)
+    card_validity_month = models.IntegerField(blank=True, null=True)
+    card_validity_year = models.IntegerField(blank=True, null=True)
     
     # Data de criação do pedido
     created_at = models.DateTimeField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
-        # ID vai ser igual ao numero do pedido
-        if not self.order_number:
-            self.order_number = self.id
+        
+        # ID vai ser igual ao numero do pedido ( NÃO DEU CERTO POIS O ID É INCLUÍDO APÓS OS DADOS TEREM SIDO SALVOS ) 
+        # if not self.order_number:
+            #self.order_number = self.id
 
         # Soma os itens do carrinho para dar o valor total 
         if self.cart:

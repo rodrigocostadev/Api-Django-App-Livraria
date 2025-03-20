@@ -53,5 +53,16 @@ class Order(models.Model):
         super().save(*args,**kwargs)
     
     def __str__(self):
-        return f"Pedido {self.order_number} para {self.user_name} criado no dia: {self.created_at}"
+        return f"Pedido {self.order_number} para o usuario {self.user_name} feito no dia: {self.created_at}"
+    
+    
+    
+    
+    
+class Book(models.Model):
+    title = models.CharField(max_length=250)
+    total_value = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.title
 

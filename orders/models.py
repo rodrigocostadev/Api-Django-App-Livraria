@@ -31,11 +31,13 @@ class Order(models.Model):
     
     # Dados Pagamento
     payment_method = models.CharField(max_length=200)
+    payment = models.CharField(max_length=50, null=True)
     card_name = models.CharField(max_length=200,blank=True, null=True)
     card_number = models.IntegerField(blank=True, null=True)
     card_security_code = models.IntegerField(blank=True, null=True)
     card_validity_month = models.IntegerField(blank=True, null=True)
     card_validity_year = models.IntegerField(blank=True, null=True)
+    promo_code = models.CharField(max_length=50,blank=True, null=True)
     
     # Data de criação do pedido
     created_at = models.DateTimeField(auto_now_add=True)

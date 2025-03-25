@@ -1,3 +1,23 @@
 Rodar a api de pagamento na porta 8080 com o comando =    python manage.py runserver 8080
 
-http://127.0.0.1:8000/api/v1/orders/
+# Tela de admin
+http://127.0.0.1:8080/admin/login/?next=/admin/  
+
+# Ordens de compra enviados para o usuario
+http://127.0.0.1:8000/api/v1/orders/      
+
+# Acesso a ordem com o id 130 (escolher o id), permite DELETAR, ATUALIZAR apenas essa ordem selecionada
+http://127.0.0.1:8080/api/v1/orders/130/               
+
+# Acesso ao preço total do pedido através do numero da ordem (escolher o numero da ordem), esse valor é mostrado na tela de pagamento ao usuario
+http://localhost:8080/api/v1/order/total-price/53458/ 
+
+# Banco de dados com o titulo e preço dos livros para retornar ao usuario, consulta o valor do livro e retorna ao usuario na tela de pagamento
+http://localhost:8080/api/v1/books/                 
+
+# Acesso ao livro especifico do banco de dados, permite DELETAR, ATUALIZAR apenas esse livro selecionado
+http://localhost:8080/api/v1/books/28/
+
+
+# Cupons de desconto: "GANHEI5" 5% de Desc,   "APP10" 10% de Desc,     "LIVRO15" 15% de Desc
+# Ao querer mudar um cupom de desconto, mudar no front end (projeto app livraria) na pagina de checkout na variavel codes, e na API (api django app livraria) no arquivo views na variavel codes

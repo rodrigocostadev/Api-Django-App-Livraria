@@ -26,17 +26,13 @@ class OrderTotalPriceView(APIView):
     def get(self,request, order_number):
         try:
             order = Order.objects.get(order_number= order_number)  # pega o pedido buscado através do order_number 
-            print("esse é o order: ",order)
-            
+            # print("esse é o order: ",order)            
             promo_code = order.promo_code                          # Verifica se há cupom de desconto
-            print("esse é o promo_code: ", promo_code )
-            
+            # print("esse é o promo_code: ", promo_code )            
             cart = order.cart                                       # cart do pedido
-            print("esse é o cart: ",cart)
-            
+            # print("esse é o cart: ",cart)            
             book_titles = [ item.get('title') for item in cart ] # Titulo dos livros adicionados no cart do pedido
-            print("esse é o titles: ",book_titles)
-            
+            # print("esse é o titles: ",book_titles)            
             sum_total_price = 0
             
             codes = [{"GANHEI5":0.05},{"APP10":0.1},{"LIVRO15":0.15},]
@@ -57,22 +53,15 @@ class OrderTotalPriceView(APIView):
                 for book_title in book_titles:                     
                     book_DB = Book.objects.get(title=book_title)   # Pega cada titulo do livro do carrinho e busca no banco de dados da APi o modelo Book,
                     sum_total_price += (book_DB.total_value - (book_DB.total_value * value_code ) ) # Pega o valor de cada livro com desconto e adiciona ao preço total do pedido
-                    print("Esse é o book DB: ",book_DB)
-                    print("Esse é o sum_total_price com CUPOM: ",sum_total_price)
+                    # print("Esse é o book DB: ",book_DB)
+                    # print("Esse é o sum_total_price com CUPOM: ",sum_total_price)
             else:
                 for book_title in book_titles:                     
                     book_DB = Book.objects.get(title=book_title)   # Pega cada titulo do livro do carrinho e busca no banco de dados da APi o modelo Book,
                     sum_total_price += book_DB.total_value         # Pega o valor de cada titulo do livro do carrinho e busca no banco de dados do modelo Book
-                    print("Esse é o book DB: ",book_DB)
-                    print("Esse é o sum_total_price: ",sum_total_price)
+                    # print("Esse é o book DB: ",book_DB)
+                    # print("Esse é o sum_total_price: ",sum_total_price)
                         
-            
-            # For de titulo de livros do carrinho do Pedido 
-            # for book_title in book_titles:                     
-            #     book_DB = Book.objects.get(title=book_title)   # Pega cada titulo do livro do carrinho e busca no banco de dados da APi o modelo Book,
-            #     sum_total_price += book_DB.total_value         # Pega o valor de cada titulo do livro do carrinho e busca no banco de dados do modelo Book
-            #     print("Esse é o book DB: ",book_DB)
-            #     print("Esse é o sum_total_price: ",sum_total_price)
 
             # return Response({"total_price":order.total_price}, status=status.HTTP_200_OK) # Método anterior somando o valor dos livros que o usuario mandou (VALOR QUE O USUARIO MANDOU)
             return Response({"total_price":sum_total_price}, status=status.HTTP_200_OK) # Novo método que soma os valores cadastrados no banco de dados da API (VALOR CADASTRADO NA API)
@@ -90,3 +79,20 @@ class BookCreateListView(generics.ListCreateAPIView):
 class BookRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+
+
+
+
+
+
+
+
+
+# For de titulo de livros do carrinho do Pedido 
+            # for book_title in book_titles:                     
+            #     book_DB = Book.objects.get(title=book_title)   # Pega cada titulo do livro do carrinho e busca no banco de dados da APi o modelo Book,
+            #     sum_total_price += book_DB.total_value         # Pega o valor de cada titulo do livro do carrinho e busca no banco de dados do modelo Book
+            #     print("Esse é o book DB: ",book_DB)
+            #     print("Esse é o sum_total_price: ",sum_total_price)
